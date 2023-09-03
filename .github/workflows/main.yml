@@ -7,14 +7,33 @@ on:
 
   pull_request:
 
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: trilogy-aurora-test
+        ports:
+          - 3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     name: Ruby ${{ matrix.ruby }}
+    timeout-minutes: 10
     strategy:
+      fail-fast: false
       matrix:
         ruby:
-          - '3.1.4'
+          - '3.0'
+          - '3.1'
+          - '3.2'
 
     steps:
     - uses: actions/checkout@v3
@@ -23,5 +42,8 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+    - name: Run tests
+      run: bundle exec rake test
+    - name: Standard
+      if: ${{ matrix.ruby == '3.2' }}
+      run: bundle exec rake standard

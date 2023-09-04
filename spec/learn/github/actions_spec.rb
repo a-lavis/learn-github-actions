@@ -31,7 +31,7 @@ RSpec.describe Learn::Github::Actions do
     end
 
     it "returns the correct result" do
-      expect(query.to_a.first.first).to match(/^#{user}@.+$/)
+      expect(query.to_a.first.first.second).to match(/^#{user}@.+$/)
     end
   end
 end

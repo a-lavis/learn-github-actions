@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'mysql2'
+require 'trilogy'
 require_relative "actions/version"
 
 module Learn

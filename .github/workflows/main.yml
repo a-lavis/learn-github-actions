@@ -44,6 +44,8 @@ jobs:
     steps:
     - name: Run MySQL
       run: sudo systemctl start mysql
+    - name: Create MySQL user
+      run: mysql -uroot -proot --port 3306 -e "CREATE USER '$TEST_DB_USER'@'localhost' IDENTIFIED BY '$TEST_DB_PASS';"
     - name: Get diagnostic info
       run: mysql -utestuser -ptestpass --port 3306 -e "SELECT CURRENT_USER() AS user;"
     - uses: actions/checkout@v3

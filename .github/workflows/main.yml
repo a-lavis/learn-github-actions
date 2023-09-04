@@ -16,6 +16,8 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306
@@ -36,8 +38,8 @@ jobs:
 
     env:
       TEST_DB_HOST: 127.0.0.1
-      TEST_DB_USER: root
-      TEST_DB_PASS: root
+      TEST_DB_USER: testuser
+      TEST_DB_PASS: testpass
 
     steps:
     - name: Run MySQL
